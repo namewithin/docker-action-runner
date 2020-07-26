@@ -21,9 +21,6 @@ RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
     && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
 RUN chown -R docker:docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-    && unzip awscliv2.zip \
-    && ./aws/install
 RUN rm -rf /var/lib/apt/lists/* \
     && apt-get clean -y
 

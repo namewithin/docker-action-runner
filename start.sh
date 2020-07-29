@@ -27,6 +27,7 @@ echo "Registering runner..."
 
 cleanup() {
   echo "Removing runner..."
+  REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token | jq .token --raw-output)
   ./config.sh remove --unattended --token ${REG_TOKEN}
 }
 

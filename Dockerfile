@@ -4,7 +4,7 @@ ARG RUNNER_VERSION="2.267.1"
 RUN apt-get update -y && apt-get upgrade -y \
     && useradd -m docker \
     && apt-get install -y --no-install-recommends \
-     curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev git apt-transport-https ca-certificates gnupg-agent software-properties-common php-cli
+     curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev git apt-transport-https ca-certificates gnupg-agent software-properties-common php-cli zip unzip
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 RUN add-apt-repository \
        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \

@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND=noninteractive
-ARG RUNNER_VERSION="2.273.0"
+ARG RUNNER_VERSION="2.273.1"
 RUN apt-get update -y && apt-get upgrade -y \
     && useradd -m docker \
     && apt-get install -y --no-install-recommends \

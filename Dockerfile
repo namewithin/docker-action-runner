@@ -16,6 +16,7 @@ RUN curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOS
     chmod +x /usr/local/bin/docker-compose
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - &&  apt-get install -y nodejs
 RUN usermod -aG root docker
+
 RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
     && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz

@@ -5,6 +5,7 @@ RUN apt-get update -y && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
      curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev git apt-transport-https ca-certificates gnupg-agent software-properties-common php-cli zip unzip
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
 RUN add-apt-repository \
        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
        $(lsb_release -cs) \
@@ -18,8 +19,9 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - &&  apt-get install 
 RUN usermod -aG root docker
 
 RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
-    && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
-    && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
+    && runner_version="$(curl --silent "https://raw.githubusercontent.com/actions/runner/main/src/runnerversion")" \
+    && curl -O -L https://github.com/actions/runner/releases/download/v{$runner_version}/actions-runner-linux-x64-$runner_version.tar.gz \
+    && tar xzf ./actions-runner-linux-x64-$runner_version.tar.gz
 RUN chown -R docker:docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \

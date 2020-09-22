@@ -22,11 +22,10 @@ fi
 
 # shellcheck disable=SC2164
 cd /home/docker/actions-runner
-echo "Registering runner..."
+echo "registering runner..."
 ./config.sh --url https://github.com/${REPO} ${CONFIG_OPTIONS}
-
 cleanup() {
-  echo "Removing runner..."
+  echo "removing runner..."
   REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token | jq .token --raw-output)
   ./config.sh remove --unattended --token ${REG_TOKEN}
   exit
@@ -34,4 +33,5 @@ cleanup() {
 
 trap cleanup SIGINT SIGQUIT SIGTERM TERM
 
+echo "running service"
 ./bin/runsvc.sh

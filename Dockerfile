@@ -3,7 +3,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && apt-get upgrade -y \
     && useradd -m docker \
     && apt-get install -y --no-install-recommends \
-     curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev git apt-transport-https ca-certificates gnupg-agent software-properties-common php-cli zip unzip
+     curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev git \
+     apt-transport-https ca-certificates gnupg-agent software-properties-common php-cli zip unzip iputils-ping supervisor \
+     sudo
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
  && add-apt-repository \
        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
@@ -29,5 +31,6 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     && apt-get clean -y
 COPY start.sh start.sh
 RUN chmod +x start.sh
+
 USER docker
-ENTRYPOINT ["./start.sh"]
+ENTRYPOINT ["/start.sh"]

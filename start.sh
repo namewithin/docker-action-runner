@@ -21,7 +21,7 @@ if [[ -n $RUNNER_LABELS ]]; then
 fi
 
 if [ "$(echo $RUNNER_REPLACE_EXISTING | tr '[:upper:]' '[:lower:]')" == "true" ]; then
-	CONFIG_OPTIONS=" --replace"
+	CONFIG_OPTIONS="${CONFIG_OPTIONS} --replace"
 fi
 
 # shellcheck disable=SC2164

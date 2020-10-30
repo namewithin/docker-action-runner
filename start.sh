@@ -20,6 +20,10 @@ if [[ -n $RUNNER_LABELS ]]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --labels ${RUNNER_LABELS}"
 fi
 
+if [ "$(echo $RUNNER_REPLACE_EXISTING | tr '[:upper:]' '[:lower:]')" == "true" ]; then
+	CONFIG_OPTIONS=" --replace"
+fi
+
 # shellcheck disable=SC2164
 cd /home/docker/actions-runner
 echo "registering runner..."

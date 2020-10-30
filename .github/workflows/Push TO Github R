@@ -1,4 +1,4 @@
-name: Github To R
+name: Github To Registry
 on:
   push:
     branches:

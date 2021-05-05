@@ -2,7 +2,7 @@ cp .env.example .env && nano $_
 
 run with scale:
 
->docker-compose up --scale runner=2 -d
+>docker-compose up --scale runner=3 -d
 
 > sudo docker run -d --name=runner --restart unless-stopped \
 -e REPO=<organization/repository> \

@@ -16,7 +16,7 @@ RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-di
  && curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh \
  && curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose \
- && curl -sL https://deb.nodesource.com/setup_10.x | bash - &&  apt-get install -y nodejs \
+ && curl -sL https://deb.nodesource.com/setup_14.x | bash - &&  apt-get install -y nodejs \
  && usermod -aG root docker
 
 RUN cd /home/docker && mkdir actions-runner && cd actions-runner \

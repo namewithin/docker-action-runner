@@ -1,8 +1,10 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && apt-get upgrade -y \
     && useradd -m docker \
     && apt-get install -y --no-install-recommends \
+    && sudo add-apt-repository -y ppa:git-core/ppa \
+    && sudo apt-get update \
      curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev git \
      apt-transport-https ca-certificates gnupg-agent software-properties-common php-cli zip unzip iputils-ping supervisor \
      sudo

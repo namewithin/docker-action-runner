@@ -26,13 +26,13 @@ fi
 
 # shellcheck disable=SC2164
 cd /home/runner
-echo "registering runner..."
-RUNNER_ALLOW_RUNASROOT="1" ./config.sh --url https://github.com/"${REPO}" "${CONFIG_OPTIONS}" --work /home/runner/work
+echo "registering runner...";
+RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --url https://github.com/${REPO} ${CONFIG_OPTIONS} --work /home/runner/work ;
 
 cleanup() {
   echo "removing runner..."
   REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token | jq .token --raw-output)
-  ./config.sh remove --unattended --token ${REG_TOKEN}
+  RUNNER_ALLOW_RUNASROOT="1" ./config.sh remove --unattended --token ${REG_TOKEN}
   exit
 }
 

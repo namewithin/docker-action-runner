@@ -17,4 +17,4 @@ jobs:
         github-token: ${{ github.token }}
         image-name: docker-action-runner
         dockerfile: Dockerfile
-        image-tag: ${{ github.sha }}
+#         image-tag: ${{ github.sha }}

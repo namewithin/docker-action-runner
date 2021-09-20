@@ -30,7 +30,6 @@ RUN curl -O -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/s
 RUN mkdir -p /home/runner
 WORKDIR /home/runner
 RUN runner_version="$(curl --silent "https://raw.githubusercontent.com/actions/runner/main/src/runnerversion")" \
-    runner_version=2.282.1 \
     && curl -O -L https://github.com/actions/runner/releases/download/v{$runner_version}/actions-runner-linux-x64-$runner_version.tar.gz \
     && tar xzf ./actions-runner-linux-x64-$runner_version.tar.gz \
     && /home/runner/bin/installdependencies.sh \

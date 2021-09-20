@@ -39,4 +39,5 @@ cleanup() {
 trap cleanup SIGINT SIGQUIT SIGTERM TERM INT QUIT
 
 echo "running service"
-./bin/Runner.Listener run --startuptype service
+#./bin/Runner.Listener run --startuptype service
+./bin/runsvc.sh

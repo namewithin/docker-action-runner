@@ -8,7 +8,7 @@ RUN apt-get update -y && apt-get upgrade -y \
     sudo
 RUN  add-apt-repository -y ppa:git-core/ppa \
     && apt-get -y update \
-    && apt-get install -y git php-xml
+    && apt-get install -y git php-xml mbstring
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
     && add-apt-repository \
     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \

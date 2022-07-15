@@ -20,6 +20,10 @@ if [[ -n $RUNNER_LABELS ]]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --labels ${RUNNER_LABELS}"
 fi
 
+if [[ -n $RUNNER_GROUP ]]; then
+  CONFIG_OPTIONS="${CONFIG_OPTIONS} --runnergroup ${RUNNER_GROUP}"
+fi
+
 if [ "$(echo $RUNNER_REPLACE_EXISTING | tr '[:upper:]' '[:lower:]')" == "true" ]; then
 	CONFIG_OPTIONS="${CONFIG_OPTIONS} --replace"
 fi
@@ -27,7 +31,7 @@ fi
 # shellcheck disable=SC2164
 cd /home/runner
 echo "registering runner...";
-RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --url https://github.com/${REPO} ${CONFIG_OPTIONS} --work /home/runner/work ;
+RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --url https://github.com/${GH_TARGET} ${CONFIG_OPTIONS} --work /home/runner/work ;
 
 cleanup() {
   echo "removing runner..."
@@ -41,4 +45,3 @@ trap cleanup SIGINT SIGQUIT SIGTERM TERM INT QUIT
 echo "running service"
 #./bin/Runner.Listener run --startuptype service
 ./bin/runsvc.sh
-

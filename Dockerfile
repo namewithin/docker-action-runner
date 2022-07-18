@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
-ENV SONAR_SCAN_VERSION=4.6.2.2472
+ENV SONAR_SCAN_VERSION=4.7.0.2747
 RUN apt-get update -y && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
     curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev \

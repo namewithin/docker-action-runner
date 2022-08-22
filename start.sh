@@ -31,6 +31,13 @@ fi
 # shellcheck disable=SC2164
 cd /home/runner
 echo "registering runner...";
+if [ "$(echo $RUNNER_DEBUG | tr '[:upper:]' '[:lower:]')" == "true" ]; then
+	echo SCOPE=$SCOPE
+	echo GH_TARGET=$GH_TARGET
+	echo REG_TOKEN=$REG_TOKEN
+	echo CONFIG_OPTIONS=$CONFIG_OPTIONS
+	echo RUNNER_LABELS=$RUNNER_LABELS
+fi
 RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --url https://github.com/${GH_TARGET} ${CONFIG_OPTIONS} --work /home/runner/work ;
 
 cleanup() {

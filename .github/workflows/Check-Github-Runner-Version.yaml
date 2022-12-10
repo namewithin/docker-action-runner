@@ -1,0 +1,49 @@
+name: Check Github Runner Version
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  check-github-runner-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: github-runner-version.txt
+          key: github-runner-version-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            github-runner-version-${{ runner.os }}
+      - name: Create github-runner-version.txt
+        if: steps.cache.outputs.cache-hit != 'false'
+        run: |
+          echo "0.0.0" > github-runner-version.txt
+      - name: Fetch github runner version
+        id: fetch_github_runner_version
+        run: |
+          runner_version=$(wget https://raw.githubusercontent.com/actions/runner/main/src/runnerversion -q -O -)
+          echo "runner_version=$runner_version" >> $GITHUB_ENV
+          CURRENT_VERSION=$(cat github-runner-version.txt)
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_ENV
+          echo "current version: $CURRENT_VERSION"
+          echo "runner version: $runner_version"
+      - name: Already on latest version
+        if: ${{ env.runner_version == env.current_version }}
+        run: |
+          echo "Already on latest version: ${{ steps.fetch_github_runner_version.outputs.runner_version }}"
+          echo "updated=false" >> $GITHUB_ENV
+      - name: Update runner version
+        if: ${{ env.runner_version != env.current_version }}
+        run: |
+          echo "New version of github runner is available: ${{ steps.fetch_github_runner_version.outputs.runner_version }}"
+          echo $runner_version > github-runner-version.txt
+          echo "updated=true" >> $GITHUB_ENV
+      - name: Run image updater workflow
+        if: ${{ env.updated == 'true' }}
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          event-type: update-image

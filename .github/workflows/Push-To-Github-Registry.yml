@@ -1,4 +1,7 @@
 name: Push to Github Registry
+concurrency: 
+  group: docker-image-${{ github.ref }}
+  cancel-in-progress: true
 on:
   repository_dispatch:
     types: [update-image]

@@ -37,7 +37,7 @@ if [ "$(echo $RUNNER_DEBUG | tr '[:upper:]' '[:lower:]')" == "true" ]; then
 	echo REG_TOKEN=$REG_TOKEN
 	echo CONFIG_OPTIONS=$CONFIG_OPTIONS
 	echo RUNNER_LABELS=$RUNNER_LABELS
-	echo REG_TOKEN=curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/repos/pdffiller/sueprvisor/actions/runners/registration-token
+	echo REG_TOKEN=curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
 fi
 RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --url https://github.com/${GH_TARGET} ${CONFIG_OPTIONS} --work /home/runner/work ;
 

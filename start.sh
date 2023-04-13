@@ -13,18 +13,10 @@ else
   GH_TARGET="${REPO}"
 fi
 echo "initializing runner..."
-echo "GH_TARGET=${GH_TARGET}"
-echo "SCOPE=${SCOPE}"
-echo "RUNNER_ALLOW_RUNASROOT=${RUNNER_ALLOW_RUNASROOT}"
-echo "RUNNER_DEBUG=${RUNNER_DEBUG}"
-echo "RUNNER_LABELS=${RUNNER_LABELS}"
-echo "RUNNER_GROUP=${RUNNER_GROUP}"
-echo "RUNNER_REPLACE_EXISTING=${RUNNER_REPLACE_EXISTING}"
-echo "ACCESS_TOKEN=${ACCESS_TOKEN}"
+
 
 REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token | jq .token --raw-output)
 echo "REG_TOKEN=${REG_TOKEN}"
-curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
 
 CONFIG_OPTIONS="--token ${REG_TOKEN}"
 
@@ -44,12 +36,16 @@ fi
 cd /home/runner
 echo "registering runner...";
 if [ "$(echo $RUNNER_DEBUG | tr '[:upper:]' '[:lower:]')" == "true" ]; then
-	echo SCOPE=$SCOPE
-	echo GH_TARGET=$GH_TARGET
-	echo REG_TOKEN=$REG_TOKEN
-	echo CONFIG_OPTIONS=$CONFIG_OPTIONS
-	echo RUNNER_LABELS=$RUNNER_LABELS
-	echo REG_TOKEN=curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
+	echo "ORG=${ORG}"
+  echo "GH_TARGET=${GH_TARGET}"
+  echo "SCOPE=${SCOPE}"
+  echo "RUNNER_ALLOW_RUNASROOT=${RUNNER_ALLOW_RUNASROOT}"
+  echo "RUNNER_DEBUG=${RUNNER_DEBUG}"
+  echo "RUNNER_LABELS=${RUNNER_LABELS}"
+  echo "RUNNER_GROUP=${RUNNER_GROUP}"
+  echo "RUNNER_REPLACE_EXISTING=${RUNNER_REPLACE_EXISTING}"
+  echo "ACCESS_TOKEN=${ACCESS_TOKEN}"
+  echo REG_TOKEN=curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
 fi
 RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --url https://github.com/${GH_TARGET} ${CONFIG_OPTIONS} --work /home/runner/work ;
 

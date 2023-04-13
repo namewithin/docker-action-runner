@@ -14,7 +14,6 @@ else
 fi
 echo "initializing runner..."
 
-
 REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token | jq .token --raw-output)
 echo "REG_TOKEN=${REG_TOKEN}"
 
@@ -45,9 +44,14 @@ if [ "$(echo $RUNNER_DEBUG | tr '[:upper:]' '[:lower:]')" == "true" ]; then
   echo "RUNNER_GROUP=${RUNNER_GROUP}"
   echo "RUNNER_REPLACE_EXISTING=${RUNNER_REPLACE_EXISTING}"
   echo "ACCESS_TOKEN=${ACCESS_TOKEN}"
+  echo "CONFIG_OPTIONS=${CONFIG_OPTIONS}"
   echo REG_TOKEN=curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
 fi
 RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --url https://github.com/${GH_TARGET} ${CONFIG_OPTIONS} --work /home/runner/work ;
+
+if [ "$(echo $RUNNER_DEBUG | tr '[:upper:]' '[:lower:]')" == "true" ]; then
+  curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
+fi
 
 cleanup() {
   echo "removing runner..."

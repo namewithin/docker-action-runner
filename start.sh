@@ -22,8 +22,12 @@ echo "initializing runner..."
 AUTHORIZE_HEADER="Authorization: token ${ACCESS_TOKEN}"
 echo "AUTHORIZE_HEADER=${AUTHORIZE_HEADER}"
 
-curl -sX POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token"
-curl -sX POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" >> /home/runner/registration-token.json
+echo "NO BRACKETS"
+curl -X POST -H "${AUTHORIZE_HEADER}" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token"
+echo "WITH BRACKETS"
+curl -X POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token"
+echo "WITH BRACKETS AND REDIRECT"
+curl -X POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" >> /home/runner/registration-token.json
 cat /home/runner/registration-token.json | jq .token --raw-output
 
 REG_TOKEN=$(curl -sX POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" | jq .token --raw-output)

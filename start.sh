@@ -9,7 +9,7 @@ if [[ -z $ACCESS_TOKEN ]]; then
   echo "Error : ACCESS_TOKEN variable must be set."
   exit 1
 fi
-
+sleep 30
 if [[ ! -z $ORG ]]; then
   SCOPE="orgs"
   GH_TARGET="${ORG}"

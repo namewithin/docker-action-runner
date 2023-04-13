@@ -19,10 +19,14 @@ else
 fi
 echo "initializing runner..."
 
-AUTHORIZE_HEADER="'Authorization: token ${ACCESS_TOKEN}'"
+AUTHORIZE_HEADER="Authorization: token ${ACCESS_TOKEN}"
 echo "AUTHORIZE_HEADER=${AUTHORIZE_HEADER}"
 
-REG_TOKEN=$(curl -sX POST -H "${AUTHORIZE_HEADER}" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" | jq .token --raw-output)
+curl -sX POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token"
+curl -sX POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" >> /home/runner/registration-token.json
+cat /home/runner/registration-token.json | jq .token --raw-output
+
+REG_TOKEN=$(curl -sX POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" | jq .token --raw-output)
 echo "REG_TOKEN=${REG_TOKEN}"
 
 CONFIG_OPTIONS="--token ${REG_TOKEN}"
@@ -58,7 +62,7 @@ fi
 RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --url https://github.com/${GH_TARGET} ${CONFIG_OPTIONS} --work /home/runner/work ;
 
 if [ "$(echo $RUNNER_DEBUG | tr '[:upper:]' '[:lower:]')" == "true" ]; then
-  curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
+  curl -sX POST -H "${AUTHORIZE_HEADER}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
 fi
 
 cleanup() {

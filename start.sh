@@ -12,12 +12,19 @@ else
   SCOPE="repos"
   GH_TARGET="${REPO}"
 fi
+echo "initializing runner..."
+echo "GH_TARGET=${GH_TARGET}"
+echo "SCOPE=${SCOPE}"
+echo "RUNNER_ALLOW_RUNASROOT=${RUNNER_ALLOW_RUNASROOT}"
+echo "RUNNER_DEBUG=${RUNNER_DEBUG}"
+echo "RUNNER_LABELS=${RUNNER_LABELS}"
+echo "RUNNER_GROUP=${RUNNER_GROUP}"
+echo "RUNNER_REPLACE_EXISTING=${RUNNER_REPLACE_EXISTING}"
+echo "ACCESS_TOKEN=${ACCESS_TOKEN}"
 
 REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token | jq .token --raw-output)
 CONFIG_OPTIONS="--token ${REG_TOKEN}"
-echo "curl output: $(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token)"
-RESPONSE=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token)
-echo "Registration token response: ${RESPONSE}"
+
 if [[ -n $RUNNER_LABELS ]]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --labels ${RUNNER_LABELS}"
 fi

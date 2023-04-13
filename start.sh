@@ -9,7 +9,7 @@ if [[ -z $ACCESS_TOKEN ]]; then
   echo "Error : ACCESS_TOKEN variable must be set."
   exit 1
 fi
-sleep 30
+
 if [[ ! -z $ORG ]]; then
   SCOPE="orgs"
   GH_TARGET="${ORG}"
@@ -19,18 +19,7 @@ else
 fi
 echo "initializing runner..."
 
-AUTHORIZE_HEADER="Authorization: token ${ACCESS_TOKEN}"
-echo "AUTHORIZE_HEADER=${AUTHORIZE_HEADER}"
-
-echo "NO BRACKETS"
-curl -X POST -H "${AUTHORIZE_HEADER}" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token"
-echo "WITH BRACKETS"
-curl -X POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token"
-echo "WITH BRACKETS AND REDIRECT"
-curl -X POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" >> /home/runner/registration-token.json
-cat /home/runner/registration-token.json | jq .token --raw-output
-
-REG_TOKEN=$(curl -sX POST -H \"${AUTHORIZE_HEADER}\" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" | jq .token --raw-output)
+REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" | jq .token --raw-output)
 echo "REG_TOKEN=${REG_TOKEN}"
 
 CONFIG_OPTIONS="--token ${REG_TOKEN}"
@@ -66,7 +55,7 @@ fi
 RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --url https://github.com/${GH_TARGET} ${CONFIG_OPTIONS} --work /home/runner/work ;
 
 if [ "$(echo $RUNNER_DEBUG | tr '[:upper:]' '[:lower:]')" == "true" ]; then
-  curl -sX POST -H "${AUTHORIZE_HEADER}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
+  curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token
 fi
 
 cleanup() {

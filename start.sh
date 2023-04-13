@@ -15,7 +15,9 @@ fi
 
 REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token | jq .token --raw-output)
 CONFIG_OPTIONS="--token ${REG_TOKEN}"
-
+echo "curl output: $(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token)"
+RESPONSE=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token)
+echo "Registration token response: ${RESPONSE}"
 if [[ -n $RUNNER_LABELS ]]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --labels ${RUNNER_LABELS}"
 fi

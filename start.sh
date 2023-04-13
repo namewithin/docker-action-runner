@@ -5,6 +5,11 @@ if [[ -z $REPO && -z $ORG ]]; then
   exit 1
 fi
 
+if [[ -z $ACCESS_TOKEN ]]; then
+  echo "Error : ACCESS_TOKEN variable must be set."
+  exit 1
+fi
+
 if [[ ! -z $ORG ]]; then
   SCOPE="orgs"
   GH_TARGET="${ORG}"
@@ -14,7 +19,7 @@ else
 fi
 echo "initializing runner..."
 
-REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token | jq .token --raw-output)
+REG_TOKEN=$(curl -sX POST -H "Authorization: token ${ACCESS_TOKEN}" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" | jq .token --raw-output)
 echo "REG_TOKEN=${REG_TOKEN}"
 
 CONFIG_OPTIONS="--token ${REG_TOKEN}"

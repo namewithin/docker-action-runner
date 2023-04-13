@@ -19,7 +19,7 @@ else
 fi
 echo "initializing runner..."
 
-AUTHORIZE_HEADER="Authorization: token ${ACCESS_TOKEN}"
+AUTHORIZE_HEADER="'Authorization: token ${ACCESS_TOKEN}'"
 echo "AUTHORIZE_HEADER=${AUTHORIZE_HEADER}"
 
 REG_TOKEN=$(curl -sX POST -H "${AUTHORIZE_HEADER}" "https://api.github.com/${SCOPE}/${GH_TARGET}/actions/runners/registration-token" | jq .token --raw-output)

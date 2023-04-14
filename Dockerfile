@@ -6,7 +6,7 @@ RUN apt-get update -y && apt-get upgrade -y \
     php-xmlwriter php-xml \
     curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev \
     apt-transport-https ca-certificates gnupg-agent software-properties-common php-cli zip unzip iputils-ping supervisor \
-    sudo docker-buildx-plugin docker-compose-plugin
+    sudo
 RUN  add-apt-repository -y ppa:git-core/ppa \
     && apt-get -y update \
     && apt-get install -y git php-xml php-mbstring php-curl
@@ -21,6 +21,7 @@ RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-di
     && curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose  \
     && chmod +x /usr/local/bin/docker-compose \
     && curl -sL https://deb.nodesource.com/setup_14.x | bash - &&  apt-get install -y nodejs
+RUN apt-get install docker-buildx-plugin docker-compose-plugin -y
 RUN curl -O -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCAN_VERSION-linux.zip \
     && unzip sonar-scanner-cli-$SONAR_SCAN_VERSION-linux.zip \
     && rm sonar-scanner-cli-$SONAR_SCAN_VERSION-linux.zip \

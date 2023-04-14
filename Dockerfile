@@ -6,7 +6,7 @@ RUN apt-get update -y && apt-get upgrade -y \
     php-xmlwriter php-xml \
     curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev \
     apt-transport-https ca-certificates gnupg-agent software-properties-common php-cli zip unzip iputils-ping supervisor \
-    sudo
+    sudo docker-buildx-plugin docker-compose-plugin
 RUN  add-apt-repository -y ppa:git-core/ppa \
     && apt-get -y update \
     && apt-get install -y git php-xml php-mbstring php-curl

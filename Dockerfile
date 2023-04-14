@@ -28,7 +28,7 @@ RUN curl -O -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/s
     && sudo mv sonar-scanner-$SONAR_SCAN_VERSION-linux /opt/sonarscanner \
     && chmod +x /opt/sonarscanner/bin/sonar-scanner \
     && ln -s /opt/sonarscanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
-
+RUN docker pull moby/buildkit:buildx-stable-1
 RUN mkdir -p /home/runner
 WORKDIR /home/runner
 RUN runner_version="$(curl --silent "https://raw.githubusercontent.com/actions/runner/main/src/runnerversion")" \

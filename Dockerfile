@@ -16,19 +16,22 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
     $(lsb_release -cs) \
     stable" \
     && apt-get update
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer --2 \
-    && curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh \
-    && curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose  \
-    && chmod +x /usr/local/bin/docker-compose \
-    && curl -sL https://deb.nodesource.com/setup_14.x | bash - &&  apt-get install -y nodejs
-RUN apt-get install docker-buildx-plugin docker-compose-plugin -y
+RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer --2
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
+    && add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) \
+    stable" \
+    && apt-get update \
+    && apt-get install -y docker-ce-cli=5:20.10.7~3-0~ubuntu-focal docker-ce=5:20.10.7~3-0~ubuntu-focal
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - &&  apt-get install -y nodejs
+RUN echo $(docker -v)
 RUN curl -O -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCAN_VERSION-linux.zip \
     && unzip sonar-scanner-cli-$SONAR_SCAN_VERSION-linux.zip \
     && rm sonar-scanner-cli-$SONAR_SCAN_VERSION-linux.zip \
     && sudo mv sonar-scanner-$SONAR_SCAN_VERSION-linux /opt/sonarscanner \
     && chmod +x /opt/sonarscanner/bin/sonar-scanner \
     && ln -s /opt/sonarscanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
-RUN docker pull moby/buildkit:buildx-stable-1
 RUN mkdir -p /home/runner
 WORKDIR /home/runner
 RUN runner_version="$(curl --silent "https://raw.githubusercontent.com/actions/runner/main/src/runnerversion")" \
